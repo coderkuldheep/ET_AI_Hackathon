@@ -1,0 +1,15 @@
+.digital-twin-page{
+
+    display:flex;
+    
+    height:100vh;
+    
+    background:#09121f;
+    
+    }
+    
+    .scene-container{
+    
+    flex:1;
+    
+    }

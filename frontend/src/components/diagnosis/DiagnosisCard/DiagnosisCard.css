@@ -1,0 +1,101 @@
+.diagnosis-card{
+
+    background:#162739;
+
+    color:white;
+
+    border-radius:15px;
+
+    padding:25px;
+
+    margin-top:30px;
+
+    box-shadow:0 10px 25px rgba(0,0,0,.25);
+
+}
+
+.diagnosis-header{
+
+    font-size:24px;
+
+    font-weight:700;
+
+    margin-bottom:25px;
+
+}
+
+.diagnosis-grid{
+
+    display:grid;
+
+    grid-template-columns:repeat(2,1fr);
+
+    gap:20px;
+
+}
+
+.diagnosis-grid div{
+
+    background:#22384d;
+
+    padding:15px;
+
+    border-radius:10px;
+
+}
+
+.diagnosis-grid span{
+
+    display:block;
+
+    font-size:13px;
+
+    color:#9ca3af;
+
+    margin-bottom:8px;
+
+}
+
+.diagnosis-grid strong{
+
+    font-size:18px;
+
+}
+
+.low{
+
+    color:#00d26a;
+
+}
+
+.medium{
+
+    color:#ffb300;
+
+}
+
+.high{
+
+    color:#ff4444;
+
+}
+
+.recommendation-box{
+
+    margin-top:25px;
+
+    background:#22384d;
+
+    border-left:5px solid #3b82f6;
+
+    padding:20px;
+
+    border-radius:10px;
+
+}
+
+.recommendation-box h4{
+
+    margin-bottom:10px;
+
+}
