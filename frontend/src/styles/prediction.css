@@ -1,0 +1,121 @@
+.prediction-page{
+
+    padding:30px;
+    
+    }
+    
+    .prediction-page h1{
+    
+    margin-bottom:30px;
+    
+    color:white;
+    
+    }
+    
+    .prediction-grid{
+    
+    display:grid;
+    
+    grid-template-columns:repeat(auto-fill,minmax(380px,1fr));
+    
+    gap:25px;
+    
+    }
+    
+    .prediction-card{
+    
+    background:#162739;
+    
+    padding:25px;
+    
+    border-radius:16px;
+    
+    color:white;
+    
+    box-shadow:0 10px 30px rgba(0,0,0,.25);
+    
+    transition:.3s;
+    
+    }
+    
+    .prediction-card:hover{
+    
+    transform:translateY(-6px);
+    
+    }
+    
+    .gauge{
+    
+    display:flex;
+    
+    justify-content:center;
+    
+    margin:20px 0;
+    
+    }
+    
+    .prediction-info{
+    
+    display:flex;
+    
+    flex-direction:column;
+    
+    gap:12px;
+    
+    }
+    
+    .prediction-info p{
+    
+    display:flex;
+    
+    justify-content:space-between;
+    
+    margin:0;
+    
+    font-size:15px;
+    
+    }
+    
+    .low{
+    
+    color:#00d26a;
+    
+    font-weight:bold;
+    
+    }
+    
+    .medium{
+    
+    color:#ffb300;
+    
+    font-weight:bold;
+    
+    }
+    
+    .high{
+    
+    color:#ff6b35;
+    
+    font-weight:bold;
+    
+    }
+    
+    .critical{
+    
+    color:#ff4444;
+    
+    font-weight:bold;
+    
+    }
+    
+    .recommendation{
+    
+    margin-top:25px;
+    
+    padding:15px;
+    
+    background:#0d1b2a;
+    
+    border-radius:10px;
+    
+    }
