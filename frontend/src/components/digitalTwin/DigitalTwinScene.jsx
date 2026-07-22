@@ -1,15 +1,16 @@
-import { Canvas } from "@react-three/fiber";
+import DigitalTwinCanvas from "./DigitalTwinCanvas";
 
-import { Environment, OrbitControls } from "@react-three/drei";
-
-import FactoryFloor from "./environment/FactoryFloor";
 import SceneLights from "./environment/SceneLights";
+import FactoryFloor from "./environment/FactoryFloor";
 
-import Conveyor from "./machines/Conveyor";
 import Pump from "./machines/Pump";
+import Conveyor from "./machines/Conveyor";
 import PumpJack from "./machines/PumpJack";
 
 import usePredictions from "./hooks/usePredictions";
+
+import CameraController from "./camera/CameraController";
+import { MACHINE_CONFIG } from "./config/machineConfig";
 
 export default function DigitalTwinScene({
 
@@ -19,69 +20,127 @@ export default function DigitalTwinScene({
 
 }) {
 
-    const predictions = usePredictions();
+    const machines = usePredictions();
+
+    if (machines.length === 0) {
+
+        return (
+
+            <div
+                style={{
+                    color: "white",
+                    textAlign: "center",
+                    padding: 40
+                }}
+            >
+                Loading Digital Twin...
+            </div>
+
+        );
+
+    }
 
     return (
 
-        <Canvas
+        <div className="scene-container">
 
-            shadows
+            <DigitalTwinCanvas>
 
-            camera={{
+                {/* Camera Controller */}
 
-                position:[10,8,12],
+                <CameraController
+                    target={selectedMachine}
+                />
 
-                fov:45
+                {/* Lights */}
 
-            }}
+                <SceneLights />
 
-        >
+                {/* Factory Floor */}
 
-            <SceneLights/>
+                <FactoryFloor />
 
-            <Environment preset="warehouse"/>
+                {/* ========================= */}
+                {/* Industrial Pump */}
+                {/* ========================= */}
 
-            <FactoryFloor/>
+                <group
 
-            <Conveyor
+                    position={MACHINE_CONFIG.pump.position}
 
-                prediction={predictions.find(
+                    rotation={MACHINE_CONFIG.pump.rotation}
 
-                    p=>p.machine==="Conveyor System"
+                    scale={MACHINE_CONFIG.pump.scale}
 
-                )}
+                >
+                    <Pump
+                        prediction={machines[0]}
+                        setSelectedMachine={() =>
+                            setSelectedMachine({
+                                ...machines[0],
+                                position: MACHINE_CONFIG.pump.position,
+                                camera: MACHINE_CONFIG.pump.camera
+                            })
+                        }
+                    />
 
-                setSelectedMachine={setSelectedMachine}
+                </group>
 
-            />
+                {/* ========================= */}
+                {/* Conveyor */}
+                {/* ========================= */}
 
-            <Pump
+                <group
 
-                prediction={predictions.find(
+                    position={MACHINE_CONFIG.conveyor.position}
 
-                    p=>p.machine==="Industrial Pump"
+                    rotation={MACHINE_CONFIG.conveyor.rotation}
 
-                )}
+                    scale={MACHINE_CONFIG.conveyor.scale}
 
-                setSelectedMachine={setSelectedMachine}
+                >
+                    <Conveyor
+                        prediction={machines[1]}
+                        setSelectedMachine={() =>
+                            setSelectedMachine({
+                                ...machines[1],
+                                position: MACHINE_CONFIG.conveyor.position,
+                                camera: MACHINE_CONFIG.conveyor.camera
+                            })
+                        }
+                    />
 
-            />
+                </group>
 
-            <PumpJack
+                {/* ========================= */}
+                {/* Pump Jack */}
+                {/* ========================= */}
 
-                prediction={predictions.find(
+                <group
 
-                    p=>p.machine==="Oil Pump Jack"
+                    position={MACHINE_CONFIG.pumpjack.position}
 
-                )}
+                    rotation={MACHINE_CONFIG.pumpjack.rotation}
 
-                setSelectedMachine={setSelectedMachine}
+                    scale={MACHINE_CONFIG.pumpjack.scale}
 
-            />
+                >
+                    <PumpJack
+                        prediction={machines[2]}
+                        setSelectedMachine={() =>
+                            setSelectedMachine({
+                                ...machines[2],
+                                position: MACHINE_CONFIG.pumpjack.position,
+                                camera: MACHINE_CONFIG.pumpjack.camera
+                            })
+                        }
+                    />
 
-            <OrbitControls/>
+                </group>
 
-        </Canvas>
+            </DigitalTwinCanvas>
+
+        </div>
 
     );
 

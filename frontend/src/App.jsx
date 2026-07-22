@@ -16,7 +16,7 @@ import DigitalTwinPage from "./pages/DigitalTwin/DigitalTwinPage";
 
 // Temporary Pages
 
-const DigitalTwin = () => <h1>Digital Twin</h1>;
+
 
 const Reports = () => <h1>Reports</h1>;
 
@@ -55,10 +55,6 @@ function App() {
                         element={<MachineDetails />}
                     />
 
-                    <Route
-                        path="/digital-twin"
-                        element={<DigitalTwin />}
-                    />
 
                     <Route
                         path="/reports"

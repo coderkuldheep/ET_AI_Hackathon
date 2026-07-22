@@ -1,44 +1,70 @@
 import { useGLTF } from "@react-three/drei";
+import { useMemo } from "react";
 import FloatingLabel from "../overlays/FloatingLabel";
 import machineColor from "../utils/machineColors";
 
-export default function PumpJack({
+import ModelWrapper from "../common/ModelWrapper";
+
+export default function Pump({
     prediction,
-    setSelectedMachine
-}) {
+    setSelectedMachine,
+    position = [18.5,0.6,-5],
+    scale = 1,
+    rotation = [0,0,0]
+}){
 
     const { scene } = useGLTF("/models/pumpjack.glb");
 
-    const model = scene.clone();
+    const model = useMemo(()=>scene.clone(),[scene]);
 
     const score = prediction?.prediction?.healthScore ?? 100;
 
-    model.traverse((child) => {
+    model.traverse(child=>{
 
-        if (child.isMesh) {
+        if(child.isMesh){
 
             child.material = child.material.clone();
+
             child.material.color.set(machineColor(score));
 
         }
 
     });
 
-    return (
-        <>
+    return(
+
+        <group
+            position={position}
+            rotation={rotation}
+            scale={scale}
+        >
+        <ModelWrapper targetHeight={5}>
             <primitive
-                object={model}
-                position={[4, 0, 0]}
-                scale={1}
-                onClick={() => setSelectedMachine(prediction)}
+             object={model} 
+             onPointerDown={(e) => {
+
+                 e.stopPropagation();
+                 console.log("======= PUMP JACK CLICKED =======");
+                 console.log(prediction);
+                 console.log("=================================");
+
+                 setSelectedMachine(prediction);
+                }}
             />
+        </ModelWrapper>
 
             <FloatingLabel
-                position={[4, 2.5, 0]}
-                machine="Pump Jack"
+
+                position={[0,2.5,0]}
+
+                machine="PumpJack"
+
                 score={score}
+
             />
-        </>
+
+        </group>
+
     );
 
 }

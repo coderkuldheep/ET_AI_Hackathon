@@ -1,44 +1,44 @@
 import jwt from "jsonwebtoken";
 
-export default function(req,res,next){
+export default function (req, res, next) {
 
-const auth=req.headers.authorization;
+    console.log("================================");
+    console.log(req.method, req.originalUrl);
+    console.log("Authorization:", req.headers.authorization);
 
-if(!auth){
+    const auth = req.headers.authorization;
 
-return res.status(401).json({
+    if (!auth) {
+        console.log("❌ No Authorization Header");
 
-message:"Unauthorized"
+        return res.status(401).json({
+            message: "Unauthorized"
+        });
+    }
 
-});
+    const token = auth.split(" ")[1];
 
-}
+    try {
 
-const token=auth.split(" ")[1];
+        const decoded = jwt.verify(
+            token,
+            process.env.JWT_SECRET
+        );
 
-try{
+        console.log("✅ Token Valid");
+        console.log(decoded);
 
-const decoded=jwt.verify(
+        req.user = decoded;
 
-token,
+        next();
 
-process.env.JWT_SECRET
+    } catch (err) {
 
-);
+        console.log("❌ Invalid Token");
+        console.log(err.message);
 
-req.user=decoded;
-
-next();
-
-}
-catch(err){
-
-return res.status(401).json({
-
-message:"Invalid Token"
-
-});
-
-}
-
+        return res.status(401).json({
+            message: "Invalid Token"
+        });
+    }
 }
