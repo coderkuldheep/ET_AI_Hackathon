@@ -4,43 +4,35 @@ import axios from "axios";
 export default function usePredictions() {
 
     const [machines, setMachines] = useState([]);
-    const [loading, setLoading] = useState(true);
 
-    const loadPredictions = async () => {
+    async function loadPredictions() {
 
         try {
 
-            const { data } = await axios.get(
+            const res = await axios.get(
                 "http://localhost:5000/api/prediction"
             );
 
-            setMachines(data);
+            setMachines(res.data);
 
         } catch (err) {
 
-            console.error("Prediction Error:", err);
-
-        } finally {
-
-            setLoading(false);
+            console.error(err);
 
         }
 
-    };
+    }
 
     useEffect(() => {
 
         loadPredictions();
 
-        const interval = setInterval(loadPredictions, 5000);
+        const timer = setInterval(loadPredictions, 3000);
 
-        return () => clearInterval(interval);
+        return () => clearInterval(timer);
 
     }, []);
 
-    return {
-        machines,
-        loading
-    };
+    return machines;
 
 }

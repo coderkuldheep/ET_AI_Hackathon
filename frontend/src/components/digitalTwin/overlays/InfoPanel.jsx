@@ -1,92 +1,144 @@
+import { useState } from "react";
+
 export default function InfoPanel({ machine }) {
 
-    if (!machine) {
+    const [collapsed, setCollapsed] = useState(false);
 
-        return (
-            <div
-                style={{
-                    position: "absolute",
-                    top: 20,
-                    right: 20,
-                    width: 320,
-                    background: "#111827",
-                    color: "white",
-                    padding: 20,
-                    borderRadius: 12,
-                    boxShadow: "0 8px 24px rgba(0,0,0,0.3)",
-                    zIndex: 1000
-                }}
-            >
-                <h2>Digital Twin</h2>
+    const panelStyle = {
+        position: "absolute",
+        top: 20,
+        right: 20,
+        width: collapsed ? "220px" : "340px",
+        background: "#111827",
+        color: "white",
+        borderRadius: "12px",
+        boxShadow: "0 8px 24px rgba(0,0,0,0.35)",
+        overflow: "hidden",
+        zIndex: 999
+    };
 
-                <p>Select a machine in the 3D scene.</p>
-            </div>
-        );
+    const headerStyle = {
+        display: "flex",
+        justifyContent: "space-between",
+        alignItems: "center",
+        padding: "15px",
+        background: "#1f2937",
+        cursor: "pointer"
+    };
 
-    }
-
-    const prediction = machine.prediction || {};
-    const sensor = machine.sensor || {};
+    const bodyStyle = {
+        padding: "20px"
+    };
 
     return (
+        <div style={panelStyle}>
 
-        <div
-            style={{
-                position: "absolute",
-                top: 20,
-                right: 20,
-                width: 340,
-                background: "#111827",
-                color: "white",
-                padding: 20,
-                borderRadius: 12,
-                boxShadow: "0 8px 24px rgba(0,0,0,0.3)",
-                zIndex: 1000
-            }}
-        >
+            <div
+                style={headerStyle}
+                onClick={() => setCollapsed(!collapsed)}
+            >
+                <h3 style={{ margin: 0 }}>
+                    🏭 Machine Details
+                </h3>
 
-            <h2>{machine.machine}</h2>
+                <button
+                    style={{
+                        background: "#2563eb",
+                        color: "white",
+                        border: "none",
+                        padding: "6px 12px",
+                        borderRadius: "6px",
+                        cursor: "pointer"
+                    }}
+                >
+                    {collapsed ? "Expand" : "Minimize"}
+                </button>
+            </div>
 
-            <hr />
+            {!collapsed && (
 
-            <p>
-                <strong>Health:</strong> {prediction.healthScore}%
-            </p>
+                <div style={bodyStyle}>
 
-            <p>
-                <strong>Risk:</strong> {prediction.risk}
-            </p>
+                    {!machine ? (
 
-            <p>
-                <strong>Failure Probability:</strong>{" "}
-                {(prediction.failureProbability * 100).toFixed(0)}%
-            </p>
+                        <>
+                            <p>Select a machine from the Digital Twin.</p>
+                        </>
 
-            <p>
-                <strong>Remaining Days:</strong>{" "}
-                {prediction.remainingDays}
-            </p>
+                    ) : (
 
-            <hr />
+                        <>
 
-            <h3>Live Sensor Data</h3>
+                            <h2>{machine.machine}</h2>
 
-            <p>Temperature : {sensor.temperature} °C</p>
+                            <hr />
 
-            <p>Pressure : {sensor.pressure} PSI</p>
+                            <p>
+                                <strong>Health:</strong>{" "}
+                                {machine.prediction?.healthScore ?? "--"}%
+                            </p>
 
-            <p>Vibration : {sensor.vibration} mm/s</p>
+                            <p>
+                                <strong>Risk:</strong>{" "}
+                                {machine.prediction?.risk}
+                            </p>
 
-            <p>Power : {sensor.power} kW</p>
+                            <p>
+                                <strong>Failure Probability:</strong>{" "}
+                                {Math.round(
+                                    (machine.prediction?.failureProbability ?? 0) * 100
+                                )}%
+                            </p>
 
-            <hr />
+                            <p>
+                                <strong>Remaining Days:</strong>{" "}
+                                {machine.prediction?.remainingDays}
+                            </p>
 
-            <h3>AI Recommendation</h3>
+                            <hr />
 
-            <p>{prediction.recommendation}</p>
+                            <h3>Live Sensors</h3>
+
+                            <p>
+                                🌡 Temperature :
+                                {" "}
+                                {machine.sensor?.temperature} °C
+                            </p>
+
+                            <p>
+                                ⚙ Pressure :
+                                {" "}
+                                {machine.sensor?.pressure}
+                            </p>
+
+                            <p>
+                                📈 Vibration :
+                                {" "}
+                                {machine.sensor?.vibration}
+                            </p>
+
+                            <p>
+                                ⚡ Power :
+                                {" "}
+                                {machine.sensor?.power}
+                            </p>
+
+                            <hr />
+
+                            <h3>AI Recommendation</h3>
+
+                            <p>
+                                {machine.prediction?.recommendation}
+                            </p>
+
+                        </>
+
+                    )}
+
+                </div>
+
+            )}
 
         </div>
-
     );
-
 }

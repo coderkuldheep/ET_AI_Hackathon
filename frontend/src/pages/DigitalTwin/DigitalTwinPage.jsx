@@ -3,6 +3,7 @@ import "./DigitalTwinPage.css";
 import { useState } from "react";
 
 import DigitalTwinScene from "../../components/digitalTwin/DigitalTwinScene";
+
 import InfoPanel from "../../components/digitalTwin/overlays/InfoPanel";
 
 export default function DigitalTwinPage() {
@@ -11,19 +12,24 @@ export default function DigitalTwinPage() {
 
     return (
 
-        <div className="digital-twin-page">
+    <div className="digital-twin-page">
 
-            <DigitalTwinScene
-                selectedMachine={selectedMachine}
-                setSelectedMachine={setSelectedMachine}
-            />
+        <DigitalTwinScene
+            selectedMachine={selectedMachine}
 
-            <InfoPanel
-                machine={selectedMachine}
-            />
+            setSelectedMachine={setSelectedMachine}
 
-        </div>
+        />
 
-    );
+        
+
+        <InfoPanel
+            machine={selectedMachine}
+
+        />
+
+    </div>
+
+);
 
 }

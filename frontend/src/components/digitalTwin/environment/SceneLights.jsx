@@ -1,24 +1,25 @@
-import { Environment } from "@react-three/drei";
-
 export default function SceneLights() {
     return (
         <>
-            <ambientLight intensity={0.8} />
+            <ambientLight intensity={0.6} />
 
             <directionalLight
-                position={[10, 15, 10]}
+                position={[15, 20, 10]}
                 intensity={2}
                 castShadow
                 shadow-mapSize-width={2048}
                 shadow-mapSize-height={2048}
             />
 
-            <directionalLight
-                position={[-10, 8, -5]}
-                intensity={0.8}
+            <pointLight
+                position={[-8, 8, -8]}
+                intensity={0.7}
             />
 
-            <Environment preset="warehouse" />
+            <pointLight
+                position={[8, 8, 8]}
+                intensity={0.7}
+            />
         </>
     );
 }
